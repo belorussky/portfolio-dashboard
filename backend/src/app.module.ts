@@ -7,6 +7,7 @@ import { AssetsModule } from './assets/assets.module';
 import { AssetsService } from './assets/assets.service';
 import { AssetsResolver } from './assets/assets.resolver';
 import { PrismaModule } from '../prisma/prisma.module';
+import { WatchlistsModule } from './watchlists/watchlists.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PrismaModule } from '../prisma/prisma.module';
     }),
     PrismaModule,
     AssetsModule,
+    WatchlistsModule,
   ],
   controllers: [AppController],
   providers: [

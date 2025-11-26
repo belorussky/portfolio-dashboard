@@ -7,10 +7,38 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Asset {
-  id        String   @id @default(uuid())
-  symbol    String   @unique
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model User {
+  id         Int         @id @default(autoincrement())
+  email      String      @unique
+  name       String?
+  watchlists Watchlist[]
 }
+
+model Asset {
+  id             Int              @id @default(autoincrement())
+  symbol         String           @unique
+  name           String
+  watchlistItems WatchlistItem[]
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+}
+
+model Watchlist {
+  id        Int             @id @default(autoincrement())
+  name      String
+  userId    Int
+  user      User            @relation(fields: [userId], references: [id])
+  items     WatchlistItem[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model WatchlistItem {
+  id          Int        @id @default(autoincrement())
+  watchlistId Int
+  assetId     Int
+  watchlist   Watchlist  @relation(fields: [watchlistId], references: [id])
+  asset       Asset      @relation(fields: [assetId], references: [id])
+  createdAt   DateTime   @default(now())
+}
+
