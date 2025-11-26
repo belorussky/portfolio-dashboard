@@ -1,0 +1,22 @@
+{
+    "name": "portfolio-dashboard",
+    "version": "1.0.0",
+    "main": "index.js",
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "scripts": {
+        "dev:front": "npm run dev --prefix frontend",
+        "dev:back": "npm run start:dev --prefix backend",
+        "dev:all": "concurrently \"npm run dev:front\" \"npm run dev:back\"",
+        "format": "prettier --write .",
+        "lint:front": "eslint frontend/src --ext .ts,.tsx",
+        "lint:back": "eslint backend/src --ext .ts",
+        "lint": "npm run lint:front && npm run lint:back"
+    },
+    "devDependencies": {
+        "prettier": "^3.6.2",
+        "concurrently": "^9.1.0"
+    }
+}
