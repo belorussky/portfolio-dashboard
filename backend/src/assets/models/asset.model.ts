@@ -1,9 +1,9 @@
-import { Field, ID, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 import { WatchlistItem } from 'src/watchlists/models/watchlist.model';
 
 @ObjectType()
 export class Asset {
-    @Field(() => ID)
+    @Field(() => Int)
     id: number;
 
     @Field(() => String)
@@ -11,7 +11,4 @@ export class Asset {
 
     @Field(() => String)
     symbol: string;
-
-    @Field(() => [WatchlistItem])
-    watchlistItems: WatchlistItem[];
 }
