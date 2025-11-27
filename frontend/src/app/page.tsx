@@ -13,6 +13,10 @@ export default function HomePage() {
         This page shows assets from the Nest.js GraphQL backend. You can also check your{' '}
         <Link href="/watchlists" className="text-blue-600 underline">
           watchlists
+        </Link>{' '}
+        or the{' '}
+        <Link href="/assets-virtual" className="text-blue-600 underline">
+          virtualized assets table
         </Link>
         .
       </p>
