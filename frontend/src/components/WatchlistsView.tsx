@@ -4,25 +4,25 @@ import { gql } from '@apollo/client';
 import { useQuery, useMutation } from '@apollo/client/react';
 
 const GET_WATCHLISTS_AND_ASSETS = gql`
-  query GetWatchlistsAndAssets {
-    watchlists {
-      id
-      name
-      items {
-        id
-        asset {
-          id
-          symbol
-          name
+    query GetWatchlistsAndAssets {
+        watchlists {
+            id
+            name
+            items {
+                id
+                asset {
+                    id
+                    symbol
+                    name
+                }
+            }
         }
-      }
+        assets {
+            id
+            symbol
+            name
+        }
     }
-    assets {
-      id
-      symbol
-      name
-    }
-  }
 `;
 
 const ADD_WATCHLIST_ITEM = gql`
