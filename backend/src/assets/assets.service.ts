@@ -7,10 +7,12 @@ export class AssetsService {
     constructor(private readonly prisma: PrismaService) {}
     
     async findAll(): Promise<Asset[]> {
-        return this.prisma.asset.findMany({
+        const assets = this.prisma.asset.findMany({
             orderBy: {
                 symbol: 'asc',
             },
         });
+
+        return assets as unknown as Asset[];
     }
 }
