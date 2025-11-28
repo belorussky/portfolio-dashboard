@@ -4,7 +4,7 @@ import { useQuery } from '@apollo/client/react';
 import { gql } from '@apollo/client';
 import { List } from 'react-window';
 
-const GET_ASSETS = gql`
+export const GET_ASSETS = gql`
   query GetAssetsForVirtualTable {
     assets {
       id

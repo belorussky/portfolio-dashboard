@@ -20,6 +20,11 @@ export default function HomePage() {
         </Link>
         .
       </p>
+      <p>
+      <Link href="/backtests" className="text-blue-600 underline">
+        backtests
+      </Link>
+      </p>
 
       <AssetsList />
       <LivePricesTicker />
