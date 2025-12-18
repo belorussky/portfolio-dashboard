@@ -9,6 +9,7 @@ import { AssetsResolver } from './assets/assets.resolver';
 import { PrismaModule } from '../prisma/prisma.module';
 import { WatchlistsModule } from './watchlists/watchlists.module';
 import { PricesModule } from './prices/prices.module';
+import { CandlesModule } from './candles/candles.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { PricesModule } from './prices/prices.module';
     AssetsModule,
     WatchlistsModule,
     PricesModule,
+    CandlesModule,
   ],
   controllers: [AppController],
   providers: [
