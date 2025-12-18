@@ -12,6 +12,7 @@ export class CandlesResolver {
     @Args('timeframe', { type: () => String, defaultValue: '1D' }) timeframe: string,
     @Args('limit', { type: () => Int, defaultValue: 200 }) limit: number,
   ) {
-    return this.candlesService.getCandles({ assetId, timeframe, limit });
+    const safeLimit = Math.min(Math.max(limit, 1), 50000);
+    return this.candlesService.getCandles({ assetId, timeframe, limit: safeLimit });
   }
 }
