@@ -10,6 +10,8 @@ import { PrismaModule } from '../prisma/prisma.module';
 import { WatchlistsModule } from './watchlists/watchlists.module';
 import { PricesModule } from './prices/prices.module';
 import { CandlesModule } from './candles/candles.module';
+import { StrategiesModule } from './strategies/strategies.module';
+import { BacktestsModule } from './backtests/backtests.module';
 
 @Module({
   imports: [
@@ -24,6 +26,8 @@ import { CandlesModule } from './candles/candles.module';
     WatchlistsModule,
     PricesModule,
     CandlesModule,
+    StrategiesModule,
+    BacktestsModule,
   ],
   controllers: [AppController],
   providers: [
