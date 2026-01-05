@@ -19,6 +19,8 @@ model Asset {
   symbol         String           @unique
   name           String
   watchlistItems WatchlistItem[]
+  priceCandles   PriceCandle[]
+  backtestRuns   BacktestRun[]
   createdAt      DateTime         @default(now())
   updatedAt      DateTime         @updatedAt
 }
@@ -41,4 +43,55 @@ model WatchlistItem {
   asset       Asset      @relation(fields: [assetId], references: [id])
   createdAt   DateTime   @default(now())
 }
+
+model PriceCandle {
+  id        Int      @id @default(autoincrement())
+  assetId   Int
+  asset     Asset     @relation(fields: [assetId], references: [id])
+  timeframe String   // e.g. "1D"
+  time      DateTime // candle start time (UTC)
+  open      Float
+  high      Float
+  low       Float
+  close     Float
+  volume    Float?
+
+  createdAt DateTime @default(now())
+
+  @@unique([assetId, timeframe, time])
+  @@index([assetId, timeframe, time])
+}
+
+model Strategy {
+  id          Int      @id @default(autoincrement())
+  name        String
+  type        String   // "MA_CROSS" | "BUY_HOLD" (string for now)
+  shortWindow Int?
+  longWindow  Int?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  runs        BacktestRun[]
+}
+
+model BacktestRun {
+  id          Int      @id @default(autoincrement())
+  assetId     Int
+  asset       Asset    @relation(fields: [assetId], references: [id])
+
+  strategyId  Int
+  strategy    Strategy @relation(fields: [strategyId], references: [id])
+
+  timeframe   String   // "1D"
+  bars        Int
+  trades      Int
+  profit      Float
+  maxDrawdown Float
+  createdAt   DateTime @default(now())
+
+  @@index([assetId, createdAt])
+  @@index([strategyId, createdAt])
+}
+
+
 
