@@ -64,13 +64,27 @@ export function WatchlistsView() {
     const [addWatchlistItem, { loading: adding }] = useMutation(ADD_WATCHLIST_ITEM);
     const [removeWatchlistItem, { loading: removing }] = useMutation(REMOVE_WATCHLIST_ITEM);
   
-    if (loading) return <p>Loading watchlists...</p>;
-    if (error) return <p>Error: {error.message}</p>;
-  
+    if (loading)
+      return (
+        <div className="flex items-center justify-center h-48 text-sm text-gray-500">
+          Loading watchlists…
+        </div>
+      );
+    if (error)
+      return (
+        <div className="flex items-center justify-center h-48 text-sm text-red-500">
+          Error: {error.message}
+        </div>
+      );
+
     const { watchlists, assets } = data;
-  
+
     if (!watchlists.length) {
-      return <p>No watchlists yet.</p>;
+      return (
+        <div className="flex items-center justify-center h-48 text-sm text-gray-500">
+          No watchlists yet.
+        </div>
+      );
     }
   
     const watchlist = watchlists[0]; // for now just use the first one
@@ -109,19 +123,23 @@ export function WatchlistsView() {
   
     return (
       <div className="space-y-6">
-        <h1 className="text-2xl font-bold">Watchlists</h1>
-  
-        <section className="border rounded-md p-4">
-          <h2 className="text-xl font-semibold mb-2">
-            {firstWatchlist.name}
-          </h2>
-  
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900">Watchlists</h1>
+          <p className="text-sm text-gray-500 mt-1">Manage your tracked assets</p>
+        </div>
+
+        <section className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden">
+          <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100 bg-gray-50">
+            <h2 className="text-base font-semibold text-gray-800">{firstWatchlist.name}</h2>
+            <span className="text-xs bg-blue-100 text-blue-700 font-mono px-2 py-0.5 rounded-full">
+              {firstWatchlist.items.length} asset{firstWatchlist.items.length !== 1 ? 's' : ''}
+            </span>
+          </div>
+
           {firstWatchlist.items.length === 0 ? (
-            <p className="text-sm text-gray-500 mb-2">
-              No assets in this watchlist yet.
-            </p>
+            <p className="text-sm text-gray-400 px-5 py-6">No assets in this watchlist yet.</p>
           ) : (
-            <ul className="space-y-1 mb-4">
+            <ul className="divide-y divide-gray-100">
               {firstWatchlist.items.map(
                 (item: {
                   id: number;
@@ -129,16 +147,16 @@ export function WatchlistsView() {
                 }) => (
                   <li
                     key={item.id}
-                    className="flex items-center justify-between"
+                    className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-colors"
                   >
-                    <div>
-                      <span className="font-mono mr-2">
+                    <div className="flex items-center gap-3">
+                      <span className="font-mono text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded tracking-wider">
                         {item.asset.symbol}
                       </span>
-                      <span>{item.asset.name}</span>
+                      <span className="text-sm text-gray-700">{item.asset.name}</span>
                     </div>
                     <button
-                      className="text-sm text-red-600 underline disabled:opacity-50"
+                      className="text-xs text-red-500 border border-red-200 px-2.5 py-1 rounded-lg transition-all cursor-pointer hover:bg-red-500 hover:text-white hover:border-red-500 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                       onClick={() => handleRemove(item.id)}
                       disabled={removing}
                     >
@@ -149,33 +167,35 @@ export function WatchlistsView() {
               )}
             </ul>
           )}
-  
-          <div className="border-t pt-3 mt-3">
-            <h3 className="font-semibold mb-2">Add asset</h3>
+
+          <div className="border-t border-gray-200 bg-gray-50">
+            <div className="px-5 py-3 border-b border-gray-100">
+              <h3 className="text-sm font-semibold text-gray-700">Add asset</h3>
+            </div>
             {availableAssets.length === 0 ? (
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-gray-400 px-5 py-4">
                 All assets are already in this watchlist.
               </p>
             ) : (
-              <ul className="space-y-1">
+              <ul className="divide-y divide-gray-100">
                 {availableAssets.map(
                   (asset: { id: number; symbol: string; name: string }) => (
                     <li
                       key={asset.id}
-                      className="flex items-center justify-between"
+                      className="flex items-center justify-between px-5 py-3 hover:bg-white transition-colors"
                     >
-                      <div>
-                        <span className="font-mono mr-2">
+                      <div className="flex items-center gap-3">
+                        <span className="font-mono text-xs font-semibold text-gray-500 bg-gray-100 px-2 py-0.5 rounded tracking-wider">
                           {asset.symbol}
                         </span>
-                        <span>{asset.name}</span>
+                        <span className="text-sm text-gray-600">{asset.name}</span>
                       </div>
                       <button
-                        className="text-sm text-blue-600 underline disabled:opacity-50"
+                        className="text-xs text-blue-600 border border-blue-200 px-2.5 py-1 rounded-lg transition-all cursor-pointer hover:bg-blue-600 hover:text-white hover:border-blue-600 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                         onClick={() => handleAdd(asset.id)}
                         disabled={adding}
                       >
-                        Add
+                        + Add
                       </button>
                     </li>
                   ),

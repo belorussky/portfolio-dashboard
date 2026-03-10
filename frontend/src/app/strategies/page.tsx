@@ -37,6 +37,8 @@ const DELETE_STRATEGY = gql`
   }
 `;
 
+const inputCls = 'border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 w-full';
+
 export default function StrategiesPage() {
   const { data, loading, error, refetch } = useQuery(GET_STRATEGIES);
   const [createStrategy, { loading: creating }] = useMutation(CREATE_STRATEGY);
@@ -60,56 +62,101 @@ export default function StrategiesPage() {
     await refetch();
   }
 
-  if (loading) return <main className="p-6">Loading…</main>;
-  if (error) return <main className="p-6 text-red-600">{error.message}</main>;
+  if (loading)
+    return (
+      <div className="flex items-center justify-center h-48 text-sm text-gray-500">
+        Loading…
+      </div>
+    );
+  if (error)
+    return (
+      <div className="flex items-center justify-center h-48 text-sm text-red-500">
+        {error.message}
+      </div>
+    );
 
   const strategies = data?.strategies ?? [];
 
   return (
-    <main className="p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Strategies</h1>
+    <main className="p-6 space-y-6 max-w-2xl mx-auto">
+      <div className="space-y-1">
+        <h1 className="text-2xl font-bold text-gray-900">Strategies</h1>
+        <p className="text-sm text-gray-500">Create and manage MA-crossover trading strategies</p>
+      </div>
 
-      <section className="border rounded-md p-4 space-y-3 max-w-xl">
-        <h2 className="font-semibold">Create MA_CROSS strategy</h2>
-        <div className="grid grid-cols-3 gap-3">
-          <label className="text-sm">
-            Name
-            <input className="border rounded px-2 py-1 w-full" value={name} onChange={e => setName(e.target.value)} />
-          </label>
-          <label className="text-sm">
-            Short
-            <input className="border rounded px-2 py-1 w-full" type="number" value={shortWindow} onChange={e => setShortWindow(Number(e.target.value))} />
-          </label>
-          <label className="text-sm">
-            Long
-            <input className="border rounded px-2 py-1 w-full" type="number" value={longWindow} onChange={e => setLongWindow(Number(e.target.value))} />
-          </label>
+      <section className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 bg-gray-50">
+          <h2 className="text-sm font-semibold text-gray-800">New Strategy</h2>
+          <p className="text-xs text-gray-400 mt-0.5">Type: MA_CROSS</p>
         </div>
-        <button
-          className="px-3 py-2 rounded bg-blue-600 text-white text-sm disabled:opacity-50"
-          disabled={creating}
-          onClick={handleCreate}
-        >
-          Create
-        </button>
+        <div className="px-5 py-5 space-y-4">
+          <div className="grid grid-cols-3 gap-4">
+            <label className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+              Name
+              <input
+                className={inputCls}
+                value={name}
+                onChange={e => setName(e.target.value)}
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+              Short window
+              <input
+                className={inputCls}
+                type="number"
+                value={shortWindow}
+                min={2}
+                onChange={e => setShortWindow(Number(e.target.value))}
+              />
+            </label>
+            <label className="flex flex-col gap-1 text-sm font-medium text-gray-700">
+              Long window
+              <input
+                className={inputCls}
+                type="number"
+                value={longWindow}
+                min={3}
+                onChange={e => setLongWindow(Number(e.target.value))}
+              />
+            </label>
+          </div>
+          <button
+            className="px-5 py-2.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium transition-all cursor-pointer hover:scale-105 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+            disabled={creating}
+            onClick={handleCreate}
+          >
+            {creating ? 'Creating…' : 'Create strategy'}
+          </button>
+        </div>
       </section>
 
-      <section className="border rounded-md p-4">
-        <h2 className="font-semibold mb-3">Saved strategies</h2>
+      <section className="border border-gray-200 rounded-xl shadow-sm bg-white overflow-hidden">
+        <div className="px-5 py-4 border-b border-gray-100 bg-gray-50 flex items-center justify-between">
+          <h2 className="text-sm font-semibold text-gray-800">Saved Strategies</h2>
+          {strategies.length > 0 && (
+            <span className="text-xs bg-blue-100 text-blue-700 font-mono px-2 py-0.5 rounded-full">
+              {strategies.length}
+            </span>
+          )}
+        </div>
+
         {strategies.length === 0 ? (
-          <p className="text-sm text-gray-600">No strategies yet.</p>
+          <p className="text-sm text-gray-400 px-5 py-6">No strategies yet.</p>
         ) : (
-          <ul className="space-y-2">
+          <ul className="divide-y divide-gray-100">
             {strategies.map((s: any) => (
-              <li key={s.id} className="flex items-center justify-between">
-                <div>
-                  <span className="font-semibold">{s.name}</span>{' '}
-                  <span className="text-xs text-gray-600">
-                    ({s.type}{s.shortWindow ? ` ${s.shortWindow}/${s.longWindow}` : ''})
+              <li
+                key={s.id}
+                className="flex items-center justify-between px-5 py-3 hover:bg-gray-50 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-sm font-semibold text-gray-800">{s.name}</span>
+                  <span className="text-xs font-mono bg-gray-100 text-gray-500 px-2 py-0.5 rounded">
+                    {s.type}{s.shortWindow ? ` ${s.shortWindow}/${s.longWindow}` : ''}
                   </span>
                 </div>
                 <button
-                  className="text-sm text-red-600 underline disabled:opacity-50"
+                  className="text-xs text-red-500 border border-red-200 px-2.5 py-1 rounded-lg transition-all cursor-pointer hover:bg-red-500 hover:text-white hover:border-red-500 hover:scale-105 active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed"
                   disabled={deleting}
                   onClick={() => handleDelete(s.id)}
                 >

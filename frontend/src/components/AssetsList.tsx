@@ -24,16 +24,15 @@ export const AssetsList = () => {
     if (error) return <p>Error: {error.message}</p>;
 
     return (
-        <div>
-            <h2 className="text-xl font-bold mb-2">Assets</h2>
-            <ul className="space-y-2">
-                {data?.assets.map((asset: Asset) => (
-                    <li key={asset.id}>
-                        <span className="font-mono mr-2">{asset.symbol}</span>
-                        <span className="text-gray-600">{asset.name}</span>
-                    </li>
-                ))}
-            </ul>
-        </div>
+        <ul className="divide-y divide-gray-100">
+            {data?.assets.map((asset: Asset) => (
+                <li key={asset.id} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
+                    <span className="font-mono text-xs font-semibold text-blue-700 bg-blue-50 px-2 py-0.5 rounded tracking-wider">
+                        {asset.symbol}
+                    </span>
+                    <span className="text-sm text-gray-700">{asset.name}</span>
+                </li>
+            ))}
+        </ul>
     )
 }

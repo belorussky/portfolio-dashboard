@@ -1,0 +1,51 @@
+export const NAV_CARDS = [
+  {
+    href: '/watchlists',
+    label: 'Watchlists',
+    description: 'Manage your tracked assets',
+    color: 'bg-blue-50 border-blue-100 hover:border-blue-300',
+    labelColor: 'text-blue-700',
+  },
+  {
+    href: '/assets-virtual',
+    label: 'Virtualized Assets',
+    description: 'Browse 5,000 rows with react-window',
+    color: 'bg-purple-50 border-purple-100 hover:border-purple-300',
+    labelColor: 'text-purple-700',
+  },
+  {
+    href: '/candles',
+    label: 'Candles',
+    description: 'Historical price candles table',
+    color: 'bg-emerald-50 border-emerald-100 hover:border-emerald-300',
+    labelColor: 'text-emerald-700',
+  },
+  {
+    href: '/chart',
+    label: 'Chart',
+    description: 'Price chart with SMA / EMA indicators',
+    color: 'bg-orange-50 border-orange-100 hover:border-orange-300',
+    labelColor: 'text-orange-700',
+  },
+  {
+    href: '/backtests',
+    label: 'Backtests',
+    description: 'MA-crossover backtest via Web Worker',
+    color: 'bg-rose-50 border-rose-100 hover:border-rose-300',
+    labelColor: 'text-rose-700',
+  },
+  {
+    href: '/backtests-real',
+    label: 'Backtests (Real)',
+    description: 'Real candles + saved runs via GraphQL',
+    color: 'bg-pink-50 border-pink-100 hover:border-pink-300',
+    labelColor: 'text-pink-700',
+  },
+  {
+    href: '/strategies',
+    label: 'Strategies',
+    description: 'Create and manage trading strategies',
+    color: 'bg-teal-50 border-teal-100 hover:border-teal-300',
+    labelColor: 'text-teal-700',
+  },
+];
